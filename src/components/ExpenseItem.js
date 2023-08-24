@@ -4,7 +4,7 @@ import { AppContext } from '../context/AppContext';
 import { PlusCircleFill, DashCircleFill } from 'react-bootstrap-icons';
 
 const ExpenseItem = props => {
-	const { dispatch } = useContext(AppContext);
+	const { dispatch, currency } = useContext(AppContext);
 
 	const handleDeleteExpense = () => {
 		dispatch({
@@ -25,10 +25,25 @@ const ExpenseItem = props => {
 		});
 	};
 
+	const decreaseAllocation = name => {
+		const expense = {
+			name: name,
+			cost: 10,
+		};
+
+		dispatch({
+			type: 'RED_EXPENSE',
+			payload: expense,
+		});
+	};
+
 	return (
 		<tr>
 			<td>{props.name}</td>
-			<td>£{props.cost}</td>
+			<td>
+				{currency}
+				{props.cost}
+			</td>
 			<td>
 				<PlusCircleFill
 					cursor="pointer"
@@ -44,7 +59,7 @@ const ExpenseItem = props => {
 					color="red"
 					fontSize={30}
 					fontWeight="bold"
-					onClick={event => increaseAllocation(props.name)}
+					onClick={event => decreaseAllocation(props.name)}
 				></DashCircleFill>
 			</td>
 			<td>
